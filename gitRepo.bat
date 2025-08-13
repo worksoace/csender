@@ -1,3 +1,6 @@
+@REM This script initializes a Git repository, commits changes, and pushes to GitHub.
+REM It handles both new repositories and existing ones, with options for merging or force pushing.  
+
 @echo off
 setlocal EnableDelayedExpansion
 
@@ -20,8 +23,28 @@ if not exist ".git" (
     set "firstMsg="
     set /p "firstMsg=Enter commit message for first push: "
     git commit -m "!firstMsg!"
-    git push -u origin main
 
+    echo.
+    echo === Pushing to GitHub... ===
+    git push -u origin main 2>git_error.log
+
+    findstr /C:"fetch first" git_error.log >nul
+    if %errorlevel%==0 (
+        echo.
+        echo !!! GitHub repo already has files. Choose an option:
+        echo [1] Merge with remote (pull first)
+        echo [2] Overwrite remote with local files (force push)
+        set /p choice=Enter choice (1 merge or 2 Overwrite): 
+
+        if "!choice!"=="1" (
+            git pull origin main --allow-unrelated-histories
+            git push origin main
+        ) else (
+            git push origin main --force
+        )
+    )
+
+    del git_error.log
     echo.
     echo === Repository initialized and pushed successfully! ===
     pause
@@ -37,8 +60,28 @@ set "msg="
 set /p "msg=Enter commit message: "
 git add .
 git commit -m "!msg!"
-git push origin main
 
+echo.
+echo === Pushing changes... ===
+git push origin main 2>git_error.log
+
+findstr /C:"fetch first" git_error.log >nul
+if %errorlevel%==0 (
+    echo.
+    echo !!! GitHub repo has updates you don't have. Choose an option:
+    echo [1] Merge with remote (pull first)
+    echo [2] Overwrite remote with local files (force push)
+    set /p choice=Enter choice (1 or 2): 
+
+    if "!choice!"=="1" (
+        git pull origin main --allow-unrelated-histories
+        git push origin main
+    ) else (
+        git push origin main --force
+    )
+)
+
+del git_error.log
 echo.
 echo === Push Complete! ===
 pause

@@ -19,6 +19,8 @@ def get_unique_filename(filename):
     
     return new_filename
 
+# Route to display the index page with file list still -------
+
 @app.route('/')
 def index():
     """Display files sorted by date and grouped by type"""
