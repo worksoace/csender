@@ -4,24 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask File Transfer</title>
+    <title>Csender - File Transfer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script>
-
         function uploadFile(event) {
             event.preventDefault();
-
             let fileInput = document.getElementById("fileInput");
             let files = fileInput.files;
-
             if (!files.length) {
                 alert("Please select file(s) to upload.");
                 return;
@@ -32,7 +24,7 @@
             let formData = new FormData();
 
             for (let i = 0; i < files.length; i++) {
-                formData.append("files", files[i]);  // Use the same key "files"
+                formData.append("files", files[i]);
             }
 
             let xhr = new XMLHttpRequest();
@@ -59,7 +51,6 @@
             xhr.send(formData);
         }
 
-
         function displayFileSize() {
             let fileInput = document.getElementById("fileInput");
             let fileSizeDisplay = document.getElementById("fileSize");
@@ -74,45 +65,53 @@
                 fileSizeDisplay.innerText = "";
             }
         }
-
     </script>
 </head>
 
 <body>
-    <div class="header">
-        <h1>seNd a File</h1>
-        <h2 class="logo">(o_o)</h2>
-    </div>
+    <header class="header">
+        <h1>Csender</h1>
+        <div class="logo">(0_0)</div>
+    </header>
 
-    <div class="bod-cont">
-        <div class="upload-section">
-            <h2>Upload a File</h2>
+    <main class="bod-cont">
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <h2>Upload Files</h2>
+            <p>Select one or more files to share instantly.</p>
             <form onsubmit="uploadFile(event)">
+                <label for="fileInput" class="custom-file-upload">
+                    📂 Choose Files
+                </label>
                 <input type="file" id="fileInput" name="file" multiple required onchange="displayFileSize()">
                 <p id="fileSize"></p>
-                <button type="submit">Upload</button>
+                <button type="submit">🚀 Upload</button>
             </form>
+
             <div class="progress-container" id="progressContainer">
                 <div class="progress-bar" id="progressBar">0%</div>
             </div>
-        </div>
+        </section>
 
-        <div class="files-section">
-            <h2>Uploaded Files</h2>
+        <!-- Files Section -->
+        <section class="files-section">
+            <h2>Available Files</h2>
             {% if grouped_files %}
             {% for file_type, files in grouped_files.items() %}
-            <h3>{{ file_type | upper }} Files</h3>
-            <ul>
+            <h3>{{ file_type | upper }}</h3>
+            <div class="file-list">
                 {% for file in files %}
-                <li><a href="{{ url_for('download_file', filename=file) }}">{{ file }}</a></li>
+                <a class="file-item" href="{{ url_for('download_file', filename=file) }}">
+                    {{ file }}
+                </a>
                 {% endfor %}
-            </ul>
+            </div>
             {% endfor %}
             {% else %}
             <p>No files uploaded yet.</p>
             {% endif %}
-        </div>
-    </div>
+        </section>
+    </main>
 </body>
 
 </html>

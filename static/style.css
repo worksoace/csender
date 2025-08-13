@@ -1,13 +1,17 @@
 :root {
     --accent-color: #11435a;
-    --font-family: "inter", serif;
+    --font-family: "Inter", sans-serif;
     --font-size: 1rem;
+    --primary-color: #007bff;
+    --secondary-color: #0c3663;
+    --light-bg: #f9f9f9;
 }
 
 body {
-    background-color: #fff;
+    background-color: var(--light-bg);
     font-family: var(--font-family);
-    font-size: 1rem;
+    font-size: var(--font-size);
+    margin: 0;
 }
 
 .header {
@@ -16,139 +20,86 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
+    background-color: var(--accent-color);
+    color: white;
 }
 
 .bod-cont {
     background-color: #102a4644;
     display: flex;
-    justify-content: space-evenly;
-    height: 80vh;
+    flex-wrap: wrap; /* ✅ Makes it responsive */
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    min-height: 80vh;
 }
 
 .logo {
     background-color: var(--accent-color);
     padding: 1rem;
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 0.5rem solid #8a8a8a93;
+    border: 0.5rem solid rgba(138, 138, 138, 0.6);
     animation: cool-animation 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    /* animation: move 2s linear infinite; */
-    box-shadow: 1px 1px 10px #141414;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
     position: absolute;
-    right: 30%;
-
+    right: 5%;
 }
 
 @keyframes cool-animation {
-    0% {
-        transform: translateX(0px) rotate(0deg);
-    }
-    20% {
-        transform: translateX(50px) rotate(30deg); /* Starts slight rotation */
-    }
-    40% {
-        transform: translateX(60px) rotate(90deg); /* Gradual transition */
-    }
-    60% {
-        transform: translateX(-60px) rotate(-90deg); /* Rotates smoothly */
-    }
-    80% {
-        transform: translateX(-50px) rotate(-30deg); /* Prepares for reset */
-    }
-    100% {
-        transform: translateX(0px) rotate(0deg); /* Full rotation & smooth return */
-    }
+    0% { transform: translateX(0) rotate(0); }
+    20% { transform: translateX(50px) rotate(30deg); }
+    40% { transform: translateX(60px) rotate(90deg); }
+    60% { transform: translateX(-60px) rotate(-90deg); }
+    80% { transform: translateX(-50px) rotate(-30deg); }
+    100% { transform: translateX(0) rotate(0); }
 }
 
-.header h2 {
-    font-size: 1rem;
-    color: #fff;
-    padding: 10px;
-    /* box-shadow: 1px 1px 10px #141414; */
-}
-
-h1 {
-    color: #444;
-    padding: 5px;
-}
-
-.upload-section {
-    background-image: url(../images/5130169.jpg);
-    margin-top: 1rem;
-    margin-bottom: 30px;
-    padding: 15px;
+.upload-section, .files-section {
     background: white;
-    box-shadow: 1px 1px 10px #14141438;
+    box-shadow: 0px 4px 20px rgba(0,0,0,0.05);
     border-radius: 1rem;
     width: 45%;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    align-items: center;
+    min-width: 300px; /* ✅ Prevents shrinking too much */
+    padding: 20px;
     text-align: center;
+    transition: all 0.3s ease-in-out;
 }
 
-::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Track color */
-    border-radius: 10px;
+.upload-section:hover, .files-section:hover {
+    transform: translateY(-5px);
 }
 
-::-webkit-scrollbar-thumb {
-    background: #888; /* Scrollbar handle color */
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-.files-section {
-    overflow-y: auto;
-    margin-top: 1rem;
-    margin-bottom: 30px;
-    padding: 15px;
-    background: white;
-    box-shadow: 1px 1px 10px #14141438;
-    border-radius: 1rem;
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    align-items: center;
-    text-align: center;
-}
-
-input[type="file"]{
+input[type="file"] {
     display: block;
     margin-top: 10px;
     border-radius: 10px;
     border: none;
-    padding: 1rem 2rem;
-    background-color: #007bff44;
-    box-shadow: 1px 1px 10px #14141438;
+    padding: 1rem;
+    background-color: rgba(0, 123, 255, 0.1);
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.05);
     cursor: pointer;
 }
 
 button {
-    background: #007BFF;
+    background: var(--primary-color);
     color: white;
     margin-top: 10px;
     border-radius: 10px;
     border: none;
     padding: 0.8rem 2rem;
-    background-color: #007bffb6;
-    box-shadow: 1px 1px 10px #14141438;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
 
 button:hover {
-    background: #0c3663b4;
-    padding: 0.8rem 3rem;
+    background: var(--secondary-color);
+    transform: scale(1.05);
 }
 
 ul {
@@ -162,11 +113,12 @@ li {
 
 li a {
     text-decoration: none;
-    color: #223a53;
-    transition: all 0.3s ease-in-out;
+    color: var(--accent-color);
+    transition: color 0.3s ease-in-out;
 }
 
 li a:hover {
+    color: var(--primary-color);
     font-weight: bold;
 }
 
@@ -185,4 +137,56 @@ li a:hover {
     text-align: center;
     color: white;
     border-radius: 5px;
+}
+
+/* 🌟 Custom file upload button */
+.custom-file-upload {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+}
+.custom-file-upload:hover {
+    background: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+/* Hide the default input */
+input[type="file"] {
+    display: none;
+}
+
+/* 🌟 General button styling */
+button {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: none;
+    padding: 0.8rem 2rem;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+}
+button:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    transform: translateY(-2px) scale(1.05);
+}
+
+
+/* ✅ Mobile responsiveness */
+@media (max-width: 768px) {
+    .bod-cont {
+        flex-direction: column;
+        align-items: center;
+    }
+    .upload-section, .files-section {
+        width: 90%;
+    }
 }
